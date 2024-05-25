@@ -1,5 +1,5 @@
 
-<<<<<<< HEAD
+
 # Définir les adresses IP ou les noms d'hôte du master et des nodes
 MASTER_IP="192.168.1.100"
 NODE1_IP="192.168.1.101"
@@ -109,5 +109,4 @@ install_node ${NODE1_IP} ${MASTER_IP} ${K3S_TOKEN}
 install_node ${NODE2_IP} ${MASTER_IP} ${K3S_TOKEN}
 
 echo "Installation complète : 1 master et 2 nodes ont été configurés."
-=======
->>>>>>> 0084d923d8195a2d23953d59a6035e4cb3c2438c
+
