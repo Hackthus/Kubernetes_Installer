@@ -68,9 +68,6 @@ Le script `install_k3s_cluster.sh` effectue les étapes suivantes :
 
 Le script inclut une gestion des erreurs pour s'assurer que chaque étape est terminée avec succès. Si une erreur survient, le script affichera un message d'erreur et s'arrêtera.
 
-## Licence
-
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
 ## Contribuer
 
@@ -78,5 +75,5 @@ Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou à
 
 ## Contact
 
-Pour toute question ou suggestion, n'hésitez pas à ouvrir une issue ou à contacter [votrenom](mailto:votre_email@example.com).
+Pour toute question ou suggestion, n'hésitez pas à ouvrir une issue ou à contacter [H@ckthus](mailto:hackthus@gmail.com).
 
