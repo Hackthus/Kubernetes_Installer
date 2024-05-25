@@ -1,50 +1,82 @@
-# Installation Automatisée d'un Cluster Kubernetes avec K3s
+# Script d'Installation d'un Cluster K3s
 
-Ce script Bash automatise le processus d'installation d'un cluster Kubernetes avec K3s sur trois machines Linux (une pour le maître et deux pour les nœuds).
-
----
+Ce dépôt contient un script permettant d'automatiser l'installation d'un cluster K3s avec un nœud maître et deux nœuds de travail en utilisant SSH.
 
 ## Prérequis
 
-Assurez-vous que chaque machine répond aux prérequis suivants :
-- Système d'exploitation Linux pris en charge (Ubuntu, Debian, CentOS, etc.)
-- Connexion Internet
-- Espace disque suffisant
-- Configuration réseau correcte (avec des adresses IP statiques recommandées)
+Avant d'exécuter le script, assurez-vous que les prérequis suivants sont respectés :
 
----
+1. **Accès SSH** : La machine exécutant le script doit avoir un accès SSH aux nœuds maître et aux nœuds de travail sans nécessiter de mot de passe. Cela peut être configuré en utilisant des clés SSH.
+
+2. **Configuration des Clés SSH** : Si vous n'avez pas configuré de clés SSH, suivez ces étapes :
+   - Générez une nouvelle paire de clés SSH sur votre machine locale :
+     ```bash
+     ssh-keygen -t rsa -b 4096 -C "votre_email@example.com"
+     ```
+   - Copiez la clé publique sur chaque nœud (remplacez `votre_utilisateur_ssh` et `ip_du_noeud` en conséquence) :
+     ```bash
+     ssh-copy-id votre_utilisateur_ssh@ip_du_noeud
+     ```
+
+3. **Configuration du Réseau** : Assurez-vous que tous les nœuds sont accessibles depuis la machine exécutant le script.
 
 ## Utilisation
 
-1. Téléchargez le script `install_cluster.sh` sur chaque machine.
-2. Modifiez les variables `MASTER_IP`, `NODE1_IP`, `NODE2_IP` et `K3S_TOKEN` dans le script avec les valeurs appropriées pour votre configuration.
-3. Donnez les permissions d'exécution au script : `chmod +x install_cluster.sh`.
-4. Exécutez le script en tant qu'utilisateur avec les droits d'administration sur chaque machine : `./install_cluster.sh`.
+1. **Cloner le Dépôt** :
+    ```bash
+    git clone https://github.com/votre_nom_utilisateur/installation-cluster-k3s.git
+    cd installation-cluster-k3s
+    ```
 
----
+2. **Modifier le Script** :
+    - Ouvrez le script `install_k3s_cluster.sh` dans un éditeur de texte.
+    - Mettez à jour les variables suivantes avec les valeurs appropriées :
+      - `MASTER_IP` : Adresse IP ou nom d'hôte du nœud maître.
+      - `NODE1_IP` : Adresse IP ou nom d'hôte du premier nœud de travail.
+      - `NODE2_IP` : Adresse IP ou nom d'hôte du deuxième nœud de travail.
+      - `SSH_USER` : Nom d'utilisateur SSH utilisé pour se connecter aux nœuds.
 
-## Variables
+3. **Exécuter le Script** :
+    ```bash
+    chmod +x install_k3s_cluster.sh
+    ./install_k3s_cluster.sh
+    ```
 
-- `MASTER_IP`: Adresse IP du nœud maître.
-- `NODE1_IP`: Adresse IP du premier nœud.
-- `NODE2_IP`: Adresse IP du deuxième nœud.
-- `K3S_TOKEN`: Token d'accès du cluster Kubernetes.
+4. **Vérification de l'Installation** :
+    - Après l'exécution du script, vérifiez que K3s est installé et fonctionne sur tous les nœuds.
+    - Vous pouvez vérifier l'état du service K3s sur chaque nœud :
+      ```bash
+      ssh votre_utilisateur_ssh@ip_du_maitre 'sudo systemctl status k3s'
+      ssh votre_utilisateur_ssh@ip_du_noeud1 'sudo systemctl status k3s-agent'
+      ssh votre_utilisateur_ssh@ip_du_noeud2 'sudo systemctl status k3s-agent'
+      ```
 
----
+## Détails du Script
 
-## Contributions
+Le script `install_k3s_cluster.sh` effectue les étapes suivantes :
 
-Les contributions sont les bienvenues ! Si vous trouvez des problèmes ou souhaitez apporter des améliorations, n'hésitez pas à ouvrir une pull request ou une issue.
+1. **Vérification de la Connexion SSH** : Vérifie la connectivité SSH vers tous les nœuds.
+2. **Installation du Nœud Maître** :
+    - Met à jour les listes de paquets et installe `curl`.
+    - Installe K3s sur le nœud maître.
+    - Récupère le token K3s et le stocke pour une utilisation ultérieure.
+3. **Installation des Nœuds de Travail** :
+    - Met à jour les listes de paquets et installe `curl` sur chaque nœud de travail.
+    - Joins chaque nœud de travail au nœud maître en utilisant le token K3s récupéré.
 
----
+## Gestion des Erreurs
 
-## Support
+Le script inclut une gestion des erreurs pour s'assurer que chaque étape est terminée avec succès. Si une erreur survient, le script affichera un message d'erreur et s'arrêtera.
 
-Pour toute question ou problème, n'hésitez pas à me contacter.
+## Licence
 
----
+Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
-## Remerciements
+## Contribuer
 
-Merci d'utiliser ce script d'installation automatisée d'un cluster Kubernetes avec K3s !
+Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou à soumettre une pull request avec des améliorations ou des corrections de bugs.
+
+## Contact
+
+Pour toute question ou suggestion, n'hésitez pas à ouvrir une issue ou à contacter [votrenom](mailto:votre_email@example.com).
 
